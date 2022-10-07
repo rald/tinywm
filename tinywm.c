@@ -36,14 +36,20 @@ int main(void)
     for(;;) {
         XNextEvent(dpy, &ev);
 
-        if(ev.type == KeyPress && ev.xkey.subwindow != None) {
-        		if(ev.xkey.keycode==XKeysymToKeycode(dpy, XStringToKeysym("1"))) { 
-	           	XRaiseWindow(dpy, ev.xkey.subwindow);
-        		} else if(ev.xkey.keycode==XKeysymToKeycode(dpy, XStringToKeysym("2"))) {
-  	          XLowerWindow(dpy, ev.xkey.subwindow);
-        		} else if(ev.xkey.keycode==XKeysymToKeycode(dpy, XStringToKeysym("3"))) {
-        			system("xterm &");	
+        if(ev.type == KeyPress) {
+
+            if(ev.xkey.subwindow != None) {
+            	if(ev.xkey.keycode==XKeysymToKeycode(dpy, XStringToKeysym("1"))) { 
+    	            XRaiseWindow(dpy, ev.xkey.subwindow);
+            	} else if(ev.xkey.keycode==XKeysymToKeycode(dpy, XStringToKeysym("2"))) {
+      	            XLowerWindow(dpy, ev.xkey.subwindow);
+      	        }
+        	}
+
+        	if(ev.xkey.keycode==XKeysymToKeycode(dpy, XStringToKeysym("3"))) {
+        		system("xterm &");	
             }
+            
         } else if(ev.type == ButtonPress && ev.xbutton.subwindow != None) {
             XGetWindowAttributes(dpy, ev.xbutton.subwindow, &attr);
             start = ev.xbutton;
